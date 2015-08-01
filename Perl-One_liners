@@ -1,0 +1,16 @@
+# Some useful Perl one liners
+# 
+1.> Inserting line numbers in a file
+perl -pi -e '$_ = sprintf "%04d %s", $., $_' test.txt
+# The above oneliner will insert 4-digit line numbers starting of the line in the test.txt file
+2.> Delete first "N" lines from a file
+perl -i.old -ne 'print unless 1 .. 10' Readme.txt
+# The above oneliner will first take a backup of Readme.txt and creates 
+# Reademe.txt.old and then removes the first 10 lines from the Readme.txt file.
+3.> Extract all the usernames from /etc/passwd
+perl -na -F: -e 'print "$F[0]\n"' < /etc/passwd
+# This is simiar to "cut -d: -f1 /etc/passwd" shell command.
+4.> DOS to Unix text conver (example only, dos2unix much faster)
+perl -i -pe 's/\r//g' file
+5.>Unix to DOS text convert (unix2dos much faster)
+perl -i -pe 's/\n/\r\n/g' file
