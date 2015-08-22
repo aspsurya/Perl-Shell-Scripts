@@ -1,8 +1,8 @@
-# Code snippet for removing the leading and trailing spaces
+#### Code snippet for removing the leading and trailing spaces
    $msg =~ s/^ *//;   #remove any leading spaces                                                                            
    $msg =~ s/ *$//;   #remove any trailing spaces
 
-# Code snippet to read the env variables 
+#### Code snippet to read the env variables 
 if (! $ENV{ORACLE_SID})
 {
     print "ORACLE_SID variable is not defined in ENV. FAILURE";
@@ -11,7 +11,7 @@ if (! $ENV{ORACLE_SID})
 
 my $ORA_SID  = $ENV{ORACLE_SID};
 
-# Accessing Command Line Arguments
+#### Accessing Command Line Arguments
 if (@ARGV == 0 )
 {
  # Logic to handle the exception
@@ -22,3 +22,96 @@ my $arg3 = $ARGV[2];
 my $arg4 = $ARGV[3];
 my $arg5 = $ARGV[4];
 
+#### Calling another script from Perl
+my $cmd = "<executable name>";
+my $returnValue = `$cmd`;
+chomp($returnValue);
+
+#### File Operations (Open, Read, Write, Open Directory)
+##       Writing into a File    ##
+my $outputFile = "${outputDir}/filename_${reportDate}.txt";
+if (! open FILE_FH, ">$outputFile") 
+{
+   print "Unable to open $outputFile with error $!\n";
+   exit(1);
+}
+
+# Write to the file
+print FILE_FH "File Opened Succesfully...\n";
+
+# Close File Handler
+close FILE_FH;
+
+## Reading from a File ##
+my $inputFile = "${inputDir}/filename_${reportDate}.txt";
+if (! open(FILE_READ_FH, $inputFile))
+{
+   print "Unable to open $inputFile with error $!\n";
+   exit(1);
+}
+
+# Read from the file
+while(<FILE_READ_FH>)
+{
+   print $_ . "\n";
+}
+
+close FILE_READ_FH;
+
+## Opens a Directory and reading all the files inside into a array 
+opendir(DIR, $path) or die "Unable top $path: $! \n";
+my @files = grep {!/^\.{1,2}$/ } readdir (DIR);
+close(DIR);
+@files = map {$path . '/' . $_ } @files;
+
+
+#### String Replacement one/more occurrence/s
+## Replace only at one occurrence
+my $string = "Surya at CDAC CDAC";
+print "Before :: $string\n";
+$string =~ s/CDAC/ABCDEFGH/;
+print "After  :: $string\n";
+exit 0;
+
+## Replace Globally
+my $string = "Surya at CDAC CDAC";
+print "Before :: $string\n";
+$string =~ s/CDAC/ABCDEFGH/g;
+print "After  :: $string\n";
+exit 0;
+
+#### Reading Time and Date
+use Time::Local;
+
+my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime( time );
+$year += 1900;
+my $runDate = sprintf "%02d/%02d/%04d", $mon, $mday, $year;
+
+
+#### Code snippet for Zip/Compress
+sub doZip
+{
+   # Set the parameter to input_file
+   my ($input_file) = @_;
+   my $compress_cmd = "compress -f $input_file";
+
+   if( -e system($compress_cmd))
+   {
+      $msg = "Unable to Compress";
+      return 0;
+   }
+}
+
+my $zip_cmd = "zip -q -m -9 $zipFileName $inputFile >/dev/null";
+$status = system($zip_cmd);
+if ($status != 0)
+{
+   print "Zip Command Failed! FAILURE";
+   return 0;
+}
+
+#### Opening a Database Connection using Perl DBI
+# Get the Oracle database Handler
+$dbh_ora = DBI->connect("dbi:Oracle:$ORACLE_SID", $ORACLE_USER , $ORACLE_PASS, { PrintError => 0 } )
+    or die "Can't connect to Oracle database $ORACLE_SID: $DBI::errstr\n";
+ 
