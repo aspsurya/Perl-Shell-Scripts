@@ -1,0 +1,24 @@
+# Code snippet for removing the leading and trailing spaces
+   $msg =~ s/^ *//;   #remove any leading spaces                                                                            
+   $msg =~ s/ *$//;   #remove any trailing spaces
+
+# Code snippet to read the env variables 
+if (! $ENV{ORACLE_SID})
+{
+    print "ORACLE_SID variable is not defined in ENV. FAILURE";
+    exit(1);
+}
+
+my $ORA_SID  = $ENV{ORACLE_SID};
+
+# Accessing Command Line Arguments
+if (@ARGV == 0 )
+{
+ # Logic to handle the exception
+}
+my $arg1 = $ARGV[0];
+my $arg2 = $ARGV[1];
+my $arg3 = $ARGV[2];
+my $arg4 = $ARGV[3];
+my $arg5 = $ARGV[4];
+
