@@ -14,3 +14,7 @@ perl -na -F: -e 'print "$F[0]\n"' < /etc/passwd
 perl -i -pe 's/\r//g' file
 5.>Unix to DOS text convert (unix2dos much faster)
 perl -i -pe 's/\n/\r\n/g' file
+
+# Removing blank lines in a file
+perl -ne 'print unless /^$/' <filename>
+perl -lne 'print if length' <filename>
