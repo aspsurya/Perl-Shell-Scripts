@@ -18,3 +18,7 @@ perl -i -pe 's/\n/\r\n/g' file
 # Removing blank lines in a file
 perl -ne 'print unless /^$/' <filename>
 perl -lne 'print if length' <filename>
+
+# This one-liner replaces all occurrences of the text you with me in the file file. 
+perl -pi -e 's/surya/aspsurya/g' <filename>
+
